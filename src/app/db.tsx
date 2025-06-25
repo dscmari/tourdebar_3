@@ -47,7 +47,7 @@ async function getAllUsers(): Promise<void> {
 // UPDATE
 async function changeUserHandler(email: string, name: string): Promise<void> {
   try {
-    const updateUser = await prisma.user.update({
+    const updateUser = await pc.user.update({
       where: {
         email: email,
       },
