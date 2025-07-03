@@ -1,3 +1,4 @@
+/*
 import { PrismaClient } from './../../generated/prisma/client.js';
 const pc = new PrismaClient();
 
@@ -77,3 +78,4 @@ async function deleteUserHandler(email: string): Promise<void> {
 
 // export EventHandler
 export { registerHandler, getUser, getAllUsers };
+*/
