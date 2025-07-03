@@ -1,21 +1,22 @@
 import Image from 'next/image';
 // import { registerHandler } from './db';
+import { addUser } from '../../actions/userAction';
 
 export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <form
-          // action={registerHandler}
+          action={addUser}
           className="border-2 border-black rounded p-4">
           <div className="p-4">
             <label htmlFor="username">Username</label>
-            <input type="text" className="border-2" name="username" />
+            <input type="email" className="border-2" name="email" />
           </div>
-          <div className="p-4">
+          {/* <div className="p-4">
             <label htmlFor="password">Password dummy</label>
             <input type="text" className="border-2" name="email" />
-          </div>
+          </div> */}
           <button
             type="submit"
             className="cursor-pointer text-white bg-black py-2 px-4 rounded">
