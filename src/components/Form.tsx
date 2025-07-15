@@ -15,12 +15,14 @@ function Form() {
   return (
     <form
       action={selectedAction === 'register' ? addUser : getUser}
-      className="border-2 border-black rounded p-4 flex justify-evenly flex-col">
-      <div className="p-4 flex justify-evenly">
-        <label htmlFor="username">Username</label>
-        <input type="email" className="border-2" name="email" />
+      className="border-2 border-black rounded flex justify-evenly flex-col">
+      <div className="border-2 border-black rounded p-4 m-4 flex justify-evenly">
+        <label className="m-2" htmlFor="username">
+          Username:
+        </label>
+        <input type="email" className="border-2 m-2" name="email" />
       </div>
-      <div className="p-4 flex justify-evenly">
+      <div className="border-2 border-black rounded p-4 m-4 flex justify-evenly">
         <Button
           id={'register'}
           onClickHandler={selectActionHandler}

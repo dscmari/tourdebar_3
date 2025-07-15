@@ -5,7 +5,7 @@ function Button(props: any) {
       type="submit"
       id={props.id}
       onClick={props.onClickHandler}
-      className="cursor-pointer text-white bg-black py-2 px-4 rounded">
+      className="cursor-pointer text-white bg-black py-2 px-4 rounded w-40">
       {props.btnCntntTxt}
     </button>
   );
