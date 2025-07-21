@@ -4,7 +4,10 @@ import { revalidatePath } from 'next/cache';
 import type { CreateUserInput } from '@/types';
 
 export const addUser = async (formData: FormData) => {
+  console.log('Hello from addUser');
   const email = formData.get('email');
+  const username = formData.get('username');
+  console.log(username);
 
   if (typeof email != 'string' || !email) {
     throw new Error('Missing or invalid customer data.');
@@ -24,18 +27,14 @@ export const addUser = async (formData: FormData) => {
 export const getUser = async (formData: FormData) => {
   const email = formData.get('email');
 
-  if (typeof email != 'string' || !email) {
-    throw new Error('Missing or invalid customer data.');
+  try {
+    const fetchedUser = await prisma.user.findUnique({
+      where: { email: email },
+    });
+    console.log('User exists:', fetchedUser);
+  } catch (error) {
+    console.error('Fehler:', error);
   }
-
-  // try {
-  //   const fetchedUser = await prisma.user.findUnique({
-  //     where: { email: email },
-  //   });
-  //   console.log('User exists:', fetchedUser);
-  // } catch (error) {
-  //   console.error('Fehler:', error);
-  // }
 
   revalidatePath('/');
 };
