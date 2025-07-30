@@ -9,11 +9,12 @@ function RegisterForm() {
       className="flex justify-evenly flex-col">
       <div className="p-4 pb-0 m-4 mb-0 flex flex-col justify-start">
         <p>LOGIN</p>
+
         <div className="flex justify-between">
-          <label className="m-2" htmlFor="username">
+          <label className="m-2" htmlFor="email">
             Email:
           </label>
-          <input type="email" className="border-2 m-2" name="email" />
+          <input id='email' type="email" className="border-2 m-2" name="email" />
         </div>
         <div className="flex justify-between">
           <label className="m-2" htmlFor="password">
