@@ -1,22 +1,44 @@
-"use server"
-import prisma from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
-import type { CreateUserInput } from "@/types";
+'use server';
+import prisma from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
+import type { CreateUserInput } from '@/types';
 
 export const addUser = async (formData: FormData) => {
-    const email = formData.get("email")
+  console.log('Hello from addUser');
+  const email = formData.get('email');
+  const username = formData.get('username');
 
-    if(typeof email != "string" || !email) {
-        throw new Error("Missing or invalid customer data.");
-    }
+  if (typeof email !== 'string' || typeof username !== "string" ) {
+    throw new Error('Missing or invalid customer data.');
+  }
 
-    const newUser : CreateUserInput = {
-        email : email
-    }
+  const newUser: CreateUserInput = {
+    email: email,
+    username: username
+  };
 
-    await prisma.user.create({
-        data: newUser
-    })
+   await prisma.user.create({
+     data: newUser,
+   });
 
-    revalidatePath("/")
-}
+  revalidatePath('/');
+};
+
+export const getUser = async (formData: FormData) => {
+  const email = formData.get('email');
+
+  if (typeof email !== 'string' || !email) {
+    throw new Error('Missing or invalid customer data.');
+  }
+
+  try {
+    const fetchedUser = await prisma.user.findUnique({
+      where: { email: email },
+    });
+    console.log('User exists:', fetchedUser);
+  } catch (error) {
+    console.error('Fehler:', error);
+  }
+
+  revalidatePath('/');
+};
