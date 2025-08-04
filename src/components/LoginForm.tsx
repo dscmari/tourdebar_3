@@ -1,11 +1,12 @@
 'use client';
 
-import { getUser } from '../../actions/userAction';
+import { signin } from "@/actions/user/signin";
+
 
 function RegisterForm() {
   return (
     <form
-      action={getUser}
+      action={signin}
       className="flex justify-evenly flex-col">
       <div className="p-4 pb-0 m-4 mb-0 flex flex-col justify-start">
         <p>LOGIN</p>
@@ -20,7 +21,7 @@ function RegisterForm() {
           <label className="m-2" htmlFor="password">
             Password:
           </label>
-          <input type="text" className="border-2 m-2" name="email" />
+          <input type="text" className="border-2 m-2" name="password" />
         </div>
         <div className="m-4 ml-0">
           <button
