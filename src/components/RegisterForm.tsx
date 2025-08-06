@@ -1,6 +1,6 @@
 'use client';
 
-import { addUser } from '../../actions/userAction';
+import { addUser } from '../../actions/user/register';
 
 function RegisterForm(props: any) {
   return (
@@ -17,6 +17,7 @@ function RegisterForm(props: any) {
             type="email"
             className="border-2 m-2"
             name="email"
+            required
           />
         </div>
         <div className="flex justify-between">
@@ -39,6 +40,7 @@ function RegisterForm(props: any) {
             type="text"
             className="border-2 m-2"
             name="password"
+            required
           />
         </div>
         <div className="m-4 ml-0">
