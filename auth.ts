@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { compare } from "bcrypt-ts";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
@@ -10,28 +11,40 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
-        let user = null;
+        let user = null; //aus doku
         const email = credentials.email;
-        if (typeof email !== "string") {
+        const password = credentials.password;
+        if (
+          !email ||
+          typeof email !== "string" ||
+          !password ||
+          typeof password !== "string"
+        ) {
           throw new Error("Missing or invalid customer data. auth.ts called");
         }
-        //const password = credentials.password //TODO hash pw !!
         user = await prisma.user.findUnique({
           where: {
             email: email,
-            //password: pa
           },
         });
 
         if (!user) {
-          // Optionally, this is also the place you could do a user registration
-          throw new Error("Missing or invalid customer data. auth.ts called");
+          return null;
         }
-        return {
-          id: String(user.id),
-          email: user.email,
-          name: user.username
-        };
+
+        const storedHashedPassword = user.password;
+        const passwordsMatch = await compare(password, storedHashedPassword);
+
+        if (passwordsMatch) {
+          return {
+            id: String(user.id),
+            email: user.email,
+            name: user.username,
+          };
+        } else {
+          console.log("reach else in auth.js")
+          return null;
+        }
       },
     }),
   ],

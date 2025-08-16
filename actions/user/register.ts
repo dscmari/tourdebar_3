@@ -1,27 +1,40 @@
-'use server';
-import prisma from '@/lib/prisma';
-import { revalidatePath } from 'next/cache';
-import type { CreateUserInput } from '@/types';
+"use server";
+import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
+import type { CreateUserInput, FormStateRegister } from "@/types";
+import { hash } from "bcrypt-ts";
+import { SignupFormSchema } from "@/lib/schema_register";
 
-export const addUser = async (formData: FormData) => {
-  console.log('Hello from addUser');
-  const email = formData.get('email');
-  const username = formData.get('username');
-  const password = formData.get("password") //TODO hash pw !!
+export const register = async (
+  prevState: FormStateRegister,
+  formData: FormData
+): Promise<FormStateRegister> => {
 
-  if (typeof email !== 'string' || typeof username !== "string" || typeof password !== "string" ) {
-    throw new Error('Missing or invalid customer data.');
+  const validatedFields = SignupFormSchema.safeParse({
+    email: formData.get("email"),
+    name: formData.get("username"),
+    password: formData.get("password"),
+  });
+
+  if (!validatedFields.success) {
+    const fieldErrors = validatedFields.error.flatten().fieldErrors;
+    return { error: "wrong credentials", success: false, validationFields: fieldErrors };
   }
 
+  const hashedPassword = await hash(validatedFields.data.password, 10); //10 ist work factor
+
   const newUser: CreateUserInput = {
-    email: email,
-    username: username,
-    password: password
+    email: validatedFields.data.email,
+    username: validatedFields.data.name,
+    password: hashedPassword,
   };
+  console.log(newUser);
 
-   await prisma.user.create({
-     data: newUser,
-   });
+  await prisma.user.create({
+    data: newUser,
+  });
 
-  revalidatePath('/');
+  revalidatePath("/");
+
+  return { error: null, success: true, validationFields: null };
 };

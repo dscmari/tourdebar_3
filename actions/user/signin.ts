@@ -1,26 +1,30 @@
 "use server";
 import { signIn } from "@/auth";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { FormStateSignin } from "@/types";
+import { AuthError } from "next-auth";
 
-export const signin = async (formData: FormData) => {
-  const email = formData.get("email");
-  const password = formData.get("password");
 
-  console.log(email, typeof email);
-  console.log(password, typeof password);
+export const signin = async (
+  prevState: FormStateSignin,
+  formData: FormData
+): Promise<FormStateSignin> => {
+  try {
+    const email = formData.get("email");
+    const password = formData.get("password");
 
-  if (typeof email !== "string" || typeof password !== "string") {
-    throw new Error("Missing or invalid customer data.");
-  }
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    return { error: null, success: true };
 
-  const logIn = await signIn("credentials", {
-    email,
-    password,
-    redirect: false,
-  });
-
-  if (logIn) {
-    redirect("/Dashboard");
+  } catch (error) {
+    if (error instanceof AuthError) {
+      if (error.type === "CredentialsSignin") {
+        return { error: "Ungültige E-Mail-Adresse oder Passwort.", success: false };
+      }
+    }
+    return { error: "Ein unbekannter Fehler ist aufgetreten.", success: false };
   }
 };
