@@ -1,6 +1,13 @@
 describe('Register', () => {
-  it('Register in database', () => {
+  it('Register new user in database', () => {
     cy.visit('/')
-    cy.contains('button', 'Register')
+    cy.contains('a', 'Register').click()
+    cy.url().should('include', '/Register')
+
+    cy.get('input[name="username"]').type('firstbornuser')
+    cy.get('input[name="email"]').type('user0@example.com')
+    cy.get('input[name="password"]').type('Passwort123!!')
+    cy.get('button[type="submit"]').click()
+
   })
 })
