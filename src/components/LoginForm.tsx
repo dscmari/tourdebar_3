@@ -18,7 +18,7 @@ function RegisterForm() {
 
   useEffect(() => {
     if (state.success) {
-      router.push("/Dashboard");
+      router.push("/dashboard");
     }
   }, [state.success]);
 
