@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { compare } from "bcrypt-ts";
+import { compare } from "bcrypt";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 

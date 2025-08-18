@@ -2,7 +2,7 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import type { CreateUserInput, FormStateRegister } from "@/types";
-import { hash } from "bcrypt-ts";
+import { hash } from "bcrypt";
 import { SignupFormSchema } from "@/lib/schema_register";
 
 export const register = async (
