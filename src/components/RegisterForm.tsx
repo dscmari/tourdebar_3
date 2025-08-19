@@ -4,7 +4,6 @@ import { FormStateRegister } from "@/types";
 import { register } from "../../actions/user/register";
 import { useActionState } from "react";
 import Image from 'next/image'
-import { auth } from "@/auth";
 
 function RegisterForm() {
   const initialState: FormStateRegister = {
@@ -15,10 +14,10 @@ function RegisterForm() {
 
   const [state, formAction] = useActionState(register, initialState);
   return (
-    <form action={formAction} className="lg:px-20">
+    <form action={formAction} className="md:px-12 lg:px-20">
       <div className="flex flex-col">
         <div className="flex items-end mb-8">
-          <Image src="/logo.png" alt="big glass of beer as tourdebar logo" width={50} height={50} />
+          <Image src="/beer.png" alt="big glass of beer as tourdebar logo" width={50} height={50} />
             <p className="font-semibold">tourdebar.de</p>
         </div>
       
